@@ -23,7 +23,7 @@ app.listen(3000, () => {
 });
 
 app.use('/api/auth', authRoute);
-app.use('/api/donation', donationRoute);
+app.use('/api/donate', donationRoute);
 
 
 app.use((err, req, res, next) => {

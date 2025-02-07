@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const foodSchema = new mongoose.Schema({
-    foodtype: {
+    foodType: {
         type: String,
         required: true,
     },
@@ -17,10 +17,10 @@ const foodSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    slug:{
-        type:String,
-        required:true,
-    }
+    // slug:{
+    //     type:String,
+    //     required:true,
+    // }
 }, { timestamps: true });
 
 const Food = mongoose.model('Food', foodSchema);

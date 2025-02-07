@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
 import { Utensils } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
+import {useDispatch,useSelector} from 'react-redux';
+import {signInFailure,signInStart,signInSuccess} from '../redux/user/userSlice';
 
 export default function FoodDonationPage() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    foodType:'',
+    quantity:'',
+    expirydate:'',
+    location:''
+  });
+  const dispatch = useDispatch();
+  const navigate=useNavigate();
 
 
   const handleChange = (e) => {
@@ -12,6 +21,29 @@ export default function FoodDonationPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if(!formData.foodType||!formData.quantity||!formData.expirydate||!formData.location){
+      return dispatch(signInFailure('Please Fill all the fields'));
+    }
+    try{
+      dispatch(signInStart());
+      const res=await fetch('/api/donate/create',{
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body:JSON.stringify(formData),
+      });
+      const data=await res.json();
+      if(data.success===false){
+        dispatch(signInFailure(data.message));
+      }
+      if(res.ok){
+        dispatch(signInSuccess(data.message));
+        navigate('/')
+      }
+
+    }
+    catch(error){
+      dispatch(signInFailure(error.message))
+    }
     
 
 
@@ -38,8 +70,8 @@ export default function FoodDonationPage() {
             <input
               type="text"
               id="foodType"
-              value={foodType}
-              
+              value={formData.foodType}
+              onChange={handleChange}
               className="block w-full border-gray-300 rounded-md shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
             />
           </div>
@@ -48,18 +80,18 @@ export default function FoodDonationPage() {
             <input
               type="number"
               id="quantity"
-              value={quantity}
-              
+              value={formData.quantity}
+              onChange={handleChange}
               className="block w-full border-gray-300 rounded-md shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
             />
           </div>
           <div>
-            <label htmlFor="expiryDate" className="block text-sm font-medium mb-2">Expiry Date</label>
+            <label htmlFor="expirydate" className="block text-sm font-medium mb-2">Expiry Date</label>
             <input
               type="date"
-              id="expiryDate"
-              value={expiryDate}
-              
+              id="expirydate"
+              value={formData.expirydate}
+              onChange={handleChange}
               className="block w-full border-gray-300 rounded-md shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
             />
           </div>
@@ -68,8 +100,8 @@ export default function FoodDonationPage() {
             <input
               type="text"
               id="location"
-              value={location}
-              
+              value={formData.location}
+              onChange={handleChange}
               className="block w-full border-gray-300 rounded-md shadow-sm focus:border-emerald-500 focus:ring focus:ring-emerald-200 focus:ring-opacity-50"
             />
           </div>
