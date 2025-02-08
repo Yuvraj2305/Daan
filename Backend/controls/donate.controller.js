@@ -27,7 +27,7 @@ export const createClothes =async(req,res,next)=>{
     }
     const newclothe=new Clothes({
         ...req.body,
-        userId:req.user.id,
+        // userId:req.user.id,
     })
     try{
         const savedPost=await newclothe.save();

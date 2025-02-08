@@ -44,11 +44,7 @@ export default function FoodDonationPage() {
     catch(error){
       dispatch(signInFailure(error.message))
     }
-    
-
-
-
-  }
+    }
 
 
   return (

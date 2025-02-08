@@ -1,4 +1,4 @@
-import mongoose, { Collection } from "mongoose";
+import mongoose from "mongoose";
 
 const clothesSchema =new mongoose.Schema({
     typeOfClothing:{
@@ -26,10 +26,10 @@ const clothesSchema =new mongoose.Schema({
         required:true,
         default:" ",
     },
-    userId:{
-        type:String,
-        required:true,
-    }
+    // userId:{
+    //     type:String,
+    //     required:true,
+    // }
 },{timestamp:true});
 
 const Clothes=mongoose.model('Clothes',clothesSchema);

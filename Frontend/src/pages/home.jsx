@@ -6,6 +6,8 @@ import { DollarSign } from 'lucide-react'
 import redhand from '../image/drive-download-20241217T033358Z-001/tim-marshall-cAtzHUz7Z8g-unsplash.jpg'
 import smilingchild from '../image/drive-download-20241217T033358Z-001/chayene-rafaela-nGwkIZFelko-unsplash.jpg'
 
+
+
 export default function Home() {
   return (
     <main className="relative bg-[#f5f5f3]">
