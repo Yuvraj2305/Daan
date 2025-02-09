@@ -1,0 +1,33 @@
+import mongoose from "mongoose";
+
+const electronicsSchema=new mongoose.Schema({
+   deviceType:{
+    type:String,
+    required:true,
+   },
+   brandModel:{
+    type:String,
+    required:true,
+   },
+   condition:{
+    type:String,
+    required:true,
+   },
+   ageOfDevice:{
+    type:String,
+    required:true,
+   },
+   collectionAddress:{
+    type:String,
+    required:true,
+   },
+   additionalNotes:{
+    type:String,
+    required:true,
+    default:'none',
+   },
+},{timestamps:true});
+
+const Electronics=mongoose.model('Electroins',electronicsSchema);
+
+export default Electronics;
