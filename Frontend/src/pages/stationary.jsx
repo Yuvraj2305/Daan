@@ -1,10 +1,55 @@
-'use client'
 
 import { PenTool } from 'lucide-react'
-import {Link} from "react-router-dom"
+// import {Link} from "react-router-dom"
 import { useState } from 'react'
+import { Link,useNavigate } from 'react-router-dom';
+import {useDispatch} from 'react-redux';
+import {signInFailure,signInStart,signInSuccess} from '../redux/user/userSlice';
+// import { useState } from 'react';
 
 export default function StationaryDonationPage() {
+  
+    const [formData, setFormData] = useState({
+      itemType:'',
+      quantity:'',
+      condition:'',
+      collectionAddress:'',
+      additionalNotes:'',
+  
+    });
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+  
+    const handleChange=(e)=>{
+      setFormData({...formData, [e.target.id]: e.target.value.trim()});
+    }
+  // console.log(formData);
+    const handleSubmit=async(e)=>{
+      e.preventDefault();
+          if(!formData.itemType||!formData.quantity||!formData.condition||!formData.collectionAddress){
+            return dispatch(signInFailure('Please Fill all the fields'));
+          }
+          try{
+            dispatch(signInStart());
+            const res=await fetch('/api/donate/createStationary',{
+              method:'POST',
+              headers:{'Content-Type':'application/json'},
+              body:JSON.stringify(formData),
+            });
+            const data=await res.json();
+            if(data.success===false){
+              dispatch(signInFailure(data.message));
+            }
+            if(res.ok){
+              dispatch(signInSuccess(data.message));
+              navigate('/')
+            }
+      
+          }
+          catch(error){
+            dispatch(signInFailure(error.message))
+          }
+    }
   
 
   return (
@@ -20,13 +65,16 @@ export default function StationaryDonationPage() {
           <PenTool className="w-8 h-8 text-emerald-600" />
           <h1 className="text-2xl font-bold">Donate Stationary</h1>
         </div>
-        <form  className="space-y-4">
+        <form  className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label htmlFor="itemType" className="block text-sm font-medium mb-2">Item Type</label>
             <input
               type="text"
               id="itemType"
               name="itemType"
+              value={formData.itemType}
+                onChange={handleChange}
+              
               placeholder="e.g., Notebooks, Pens, Pencils"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
@@ -37,7 +85,8 @@ export default function StationaryDonationPage() {
               type="number"
               id="quantity"
               name="quantity"
-              
+              value={formData.quantity}
+                onChange={handleChange}
               placeholder="Number of items"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
@@ -48,7 +97,8 @@ export default function StationaryDonationPage() {
               type="text"
               id="condition"
               name="condition"
-             
+              value={formData.condition}
+              onChange={handleChange}
               placeholder="e.g., New, Gently used"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
@@ -57,9 +107,10 @@ export default function StationaryDonationPage() {
             <label htmlFor="address" className="block text-sm font-medium mb-2">Collection Address</label>
             <input
               type="text"
-              id="address"
-              name="address"
-             
+              id="collectionAddress"
+              name="collectionAddress"
+              value={formData.collectionAddress}
+                onChange={handleChange}
               placeholder="Enter the address for stationary collection"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
@@ -69,7 +120,8 @@ export default function StationaryDonationPage() {
             <textarea
               id="additionalNotes"
               name="additionalNotes"
-              
+              value={formData.additionalNotes}
+                onChange={handleChange}
               placeholder="Any specific details about the items"
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500 h-32"
             ></textarea>
@@ -85,4 +137,3 @@ export default function StationaryDonationPage() {
     </div>
   )
 }
-
