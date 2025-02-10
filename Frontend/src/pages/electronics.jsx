@@ -1,9 +1,9 @@
 
 import { Laptop } from 'lucide-react'
 // import {Link} from 'react-router-dom'
-import { ShoppingBag } from 'lucide-react'
+// import { ShoppingBag } from 'lucide-react'
 import { Link,useNavigate } from 'react-router-dom';
-import {useDispatch,useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {signInFailure,signInStart,signInSuccess} from '../redux/user/userSlice';
 import { useState } from 'react';
 
@@ -18,37 +18,38 @@ export default function ElectronicsDonationPage() {
 
   });
   const dispatch = useDispatch();
-  const navigate=useNavigate();
+  const navigate = useNavigate();
 
-const handleChange=(e)=>{
-  setFormData({...formData, [e.target.id]: e.target.value.trim()});
-}
-const handleSubmit=async(e)=>{
-  e.preventDefault();
-      if(!formData.deviceType||!formData.brandModel||!formData.condition||!formData.ageOfDevice||!formData.size||!formData.collectionAddress){
-        return dispatch(signInFailure('Please Fill all the fields'));
-      }
-      try{
-        dispatch(signInStart());
-        const res=await fetch('/api/donate/createElectronics',{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify(formData),
-        });
-        const data=await res.json();
-        if(data.success===false){
-          dispatch(signInFailure(data.message));
+  const handleChange=(e)=>{
+    setFormData({...formData, [e.target.id]: e.target.value.trim()});
+  }
+// console.log(formData);
+  const handleSubmit=async(e)=>{
+    e.preventDefault();
+        if(!formData.deviceType||!formData.brandModel||!formData.condition||!formData.ageOfDevice||!formData.collectionAddress){
+          return dispatch(signInFailure('Please Fill all the fields'));
         }
-        if(res.ok){
-          dispatch(signInSuccess(data.message));
-          navigate('/')
+        try{
+          dispatch(signInStart());
+          const res=await fetch('/api/donate/createElectronics',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(formData),
+          });
+          const data=await res.json();
+          if(data.success===false){
+            dispatch(signInFailure(data.message));
+          }
+          if(res.ok){
+            dispatch(signInSuccess(data.message));
+            navigate('/')
+          }
+    
         }
-  
-      }
-      catch(error){
-        dispatch(signInFailure(error.message))
-      }
-}
+        catch(error){
+          dispatch(signInFailure(error.message))
+        }
+  }
 
 
   return (
@@ -64,7 +65,7 @@ const handleSubmit=async(e)=>{
           <Laptop className="w-8 h-8 text-emerald-600" />
           <h1 className="text-2xl font-bold">Donate Electronics</h1>
         </div>
-        <form  className="space-y-4" onSubmit={handleSubmit}>
+        <form  className="space-y-4" onSubmit={handleSubmit} >
           <div>
             <label htmlFor="deviceType" className="block text-sm font-medium mb-2">Device Type</label>
             <input

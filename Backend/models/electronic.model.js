@@ -28,6 +28,6 @@ const electronicsSchema=new mongoose.Schema({
    },
 },{timestamps:true});
 
-const Electronics=mongoose.model('Electroins',electronicsSchema);
+const Electronics=mongoose.model('Electronics',electronicsSchema);
 
 export default Electronics;
