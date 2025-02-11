@@ -2,6 +2,7 @@ import Food from '../models/food.model.js';
 import Clothes from '../models/clothes.model.js';
 import Electronics from '../models/electronic.model.js'
 import Stationary from '../models/stationary.model.js'
+import Toys from '../models/toys.model.js'
 import { errorHandler } from '../utils/error.js';
 
 export const createFood = async (req, res, next) => {
@@ -65,6 +66,22 @@ export const createStationary=async(req,res,next)=>{
     })
     try{
         const savedPost=await newStationary.save();
+        res.status(200).json(savedPost);
+    }catch(error){
+        next(error);
+    }
+}
+
+export const createToys=async(req,res,next)=>{
+    const {toyType,quantity,condition,collectionAddress,additionalNotes,ageOfToy}=req.body;
+    if(!toyType||!quantity||!condition||!collectionAddress||!ageOfToy||toyType===''||quantity===''||condition===''||collectionAddress===''||ageOfToy===''){
+        next(errorHandler(400,'All field are required'));
+    }
+    const newToy=new Toys({
+        ...req.body,
+    })
+    try{
+        const savedPost=await newToy.save();
         res.status(200).json(savedPost);
     }catch(error){
         next(error);

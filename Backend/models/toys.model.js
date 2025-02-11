@@ -1,12 +1,16 @@
 import mongoose from "mongoose";
 
-const stationarySchema=new mongoose.Schema({
-   itemType:{
+const toysSchema=new mongoose.Schema({
+   toyType:{
+    type:String,
+    required:true,
+   },
+   ageOfToy:{
     type:String,
     required:true,
    },
    quantity:{
-    type:String,
+    type:Number,
     required:true,
    },
    condition:{
@@ -19,11 +23,10 @@ const stationarySchema=new mongoose.Schema({
    },
    additionalNotes:{
     type:String,
-   //  required:true,
     default:'none',
    },
 },{timestamps:true});
 
-const Stationary=mongoose.model('Stationary',stationarySchema);
+const Toys=mongoose.model('Toys',toysSchema);
 
-export default Stationary;
+export default Toys;

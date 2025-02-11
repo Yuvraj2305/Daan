@@ -23,7 +23,7 @@ const electronicsSchema=new mongoose.Schema({
    },
    additionalNotes:{
     type:String,
-    required:true,
+   //  required:true,
     default:'none',
    },
 },{timestamps:true});

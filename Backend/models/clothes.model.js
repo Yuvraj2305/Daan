@@ -23,7 +23,7 @@ const clothesSchema =new mongoose.Schema({
     },
     additionalNote:{
         type:String,
-        required:true,
+        // required:true,
         default:" ",
     },
     // userId:{
