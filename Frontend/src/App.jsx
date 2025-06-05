@@ -13,6 +13,7 @@ import Stationary from './pages/stationary'
 import Clothes from './pages/clothes'
 import Electronics from './pages/electronics'
 import Money from './pages/money'
+import Profile from './pages/profile'
 
 function App() {
    return (
@@ -30,8 +31,7 @@ function App() {
          <Route path='/donate/money' element={<Money />} />
          <Route path='/donate/electronics' element={<Electronics />} />
          <Route path='/donate/stationary' element={<Stationary />} />
-         
-         
+         <Route path='/profile' element={<Profile />} />
        </Routes>
        <Footer/>
        </BrowserRouter >

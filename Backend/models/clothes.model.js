@@ -26,10 +26,11 @@ const clothesSchema =new mongoose.Schema({
         // required:true,
         default:" ",
     },
-    // userId:{
-    //     type:String,
-    //     required:true,
-    // }
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
 },{timestamp:true});
 
 const Clothes=mongoose.model('Clothes',clothesSchema);

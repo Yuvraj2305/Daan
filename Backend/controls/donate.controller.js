@@ -13,6 +13,7 @@ export const createFood = async (req, res, next) => {
     }
     const newfood=new Food({
         ...req.body,
+        userId: req.user.id,
     })
     try{
         const savedPost=await newfood.save();
@@ -30,7 +31,7 @@ export const createClothes =async(req,res,next)=>{
     }
     const newclothe=new Clothes({
         ...req.body,
-        // userId:req.user.id,
+        userId: req.user.id,
     })
     try{
         const savedPost=await newclothe.save();
@@ -47,6 +48,7 @@ export const createElectronics=async(req,res,next)=>{
     }
     const newElectronics=new Electronics({
         ...req.body,
+        userId: req.user.id,
     })
     try{
         const savedPost=await newElectronics.save();
@@ -63,6 +65,7 @@ export const createStationary=async(req,res,next)=>{
     }
     const newStationary=new Stationary({
         ...req.body,
+        userId: req.user.id,
     })
     try{
         const savedPost=await newStationary.save();
@@ -79,11 +82,34 @@ export const createToys=async(req,res,next)=>{
     }
     const newToy=new Toys({
         ...req.body,
+        userId: req.user.id,
     })
     try{
         const savedPost=await newToy.save();
         res.status(200).json(savedPost);
     }catch(error){
+        next(error);
+    }
+}
+
+export const getUserDonations = async (req, res, next) => {
+    try {
+        const userId = req.user.id;
+        const [food, clothes, electronics, stationary, toys] = await Promise.all([
+            Food.find({ userId }),
+            Clothes.find({ userId }),
+            Electronics.find({ userId }),
+            Stationary.find({ userId }),
+            Toys.find({ userId })
+        ]);
+        res.status(200).json({
+            food,
+            clothes,
+            electronics,
+            stationary,
+            toys
+        });
+    } catch (error) {
         next(error);
     }
 }

@@ -25,6 +25,11 @@ const toysSchema=new mongoose.Schema({
     type:String,
     default:'none',
    },
+   userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+   },
 },{timestamps:true});
 
 const Toys=mongoose.model('Toys',toysSchema);

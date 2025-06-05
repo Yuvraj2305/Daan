@@ -22,6 +22,11 @@ const stationarySchema=new mongoose.Schema({
    //  required:true,
     default:'none',
    },
+   userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+   },
 },{timestamps:true});
 
 const Stationary=mongoose.model('Stationary',stationarySchema);

@@ -26,6 +26,11 @@ const electronicsSchema=new mongoose.Schema({
    //  required:true,
     default:'none',
    },
+   userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+      required: true,
+   },
 },{timestamps:true});
 
 const Electronics=mongoose.model('Electronics',electronicsSchema);
